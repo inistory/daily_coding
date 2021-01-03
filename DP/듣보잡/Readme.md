@@ -1,22 +1,88 @@
-# 촌수계산
+# 듣보잡
 
-## [문제](https://www.acmicpc.net/problem/2644)
+## [문제](https://www.acmicpc.net/problem/1764) 
 
-문제
+듣도 못한 사람과 보도 못한 사람의 수와 명단이 각각 주어질 때, 듣도 보도 못한 사람의 수와 명단을 출력하는 문제
+
+## 예제
 
 ```
-입력:
+입력
+3 4
+ohhenrie
+charlie
+baesangwook
+obama
+baesangwook
+ohhenrie
+clinton
+
+출력
+2
+baesangwook
+ohhenrie
+
 ```
 
-## Solutions
+## 예시
 
-<!--
-|solution|time|info|
-|:-:|:-:|:-:|
-|[solution1.py](solution1.py)|880ms|python3는 시간초과가 난다. |
-|[solution2.py](solution2.py)|X|tree의 리스트 버전, 시간 초과가 난다. | -->
+듣도 못한 사람은 3명 ohhenrie, charlie, baesangwook
+보도 못한 사람은 4명 obama, baesangwook, ohhenrie, clinton
+
+이러한 경우, 듣도 보도 못한 사람은 baesangwook, ohhenrie 으로 2명이 나온다. 
+
+## 문제 풀이 전략
+
+listen_list, see_list 에 input값을 넣고 name = set(listen_list) & set(see_list) 를 사용해서 겹치는 입력값을 구하고 sorted(list(name))를 통해 정렬하여 사전순서로 나오게 한다.
+
+
+## Results
+|Version|Memory|Time(ms)|info|
+|:-:|:-:|:-:|:--|
+|1764.py([1764.py])|42496KB|3628ms|Baseline|
+|1764_v2.py([1764_v2.py])|41624KB|128ms|Baseline|
+
+
+## Solution 1
 
 ```python
+import sys
+input = sys.stdin.readline
 
+listen,see = map(int,input().split())
+listen_list = []
+see_list = []
+for i in range(listen):
+    listen_list.append(input().strip())
+    
+for i in range(see):
+    see_list.append(input().strip())
+    
+name = set(listen_list) & set(see_list)
+name = sorted(list(name))
+
+print(len(name))
+for i in name:
+    print(i)
+```
+## Solution 2
+```python
+import sys
+input = sys.stdin.readline
+listen, see = map(int, input().split())
+listen_set = set()
+see_set = set()
+
+for i in range(listen):
+    listen_set.add(input().strip())
+
+for i in range(see):
+    see_set.add(input().strip())
+
+name = listen_set & see_set
+
+print(len(name))
+for i in sorted(name):
+    print(i)
 
 ```
