@@ -5,16 +5,15 @@
 문제
 
 ```
-입력:
+촌수를 계산하는 문제
+
 ```
 
 ## Solutions
 
-<!--
-|solution|time|info|
-|:-:|:-:|:-:|
-|[solution1.py](solution1.py)|880ms|python3는 시간초과가 난다. |
-|[solution2.py](solution2.py)|X|tree의 리스트 버전, 시간 초과가 난다. | -->
+|           solution           | time  |    info     |
+| :--------------------------: | :---: | :---------: |
+| [solution1.py](solution1.py) | 64 ms | 으아아ㅏㅏ. |
 
 ```python
 

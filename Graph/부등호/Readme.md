@@ -1,11 +1,11 @@
-# 촌수계산
+# 부등호
 
-## [문제](https://www.acmicpc.net/problem/2644)
+## [문제](https://www.acmicpc.net/problem/2529)
 
 문제
 
 ```
-입력:
+입력:ㅇㄹㅇㄹㅇㅎㅇ
 ```
 
 ## Solutions
