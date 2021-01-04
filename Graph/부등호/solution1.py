@@ -39,6 +39,3 @@ def solve(cnt, s):
 
 solve(0, "")
 print("%s\n%s" % (mx, mn))
-
-
-출처:  [PROJECT REBAS]
