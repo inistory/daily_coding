@@ -2,7 +2,6 @@ def bfs(start, end):
 
     queue = [start]
     visited = []
-    adjacencyList = arr
 
     while queue:
         current = queue.pop(0)
@@ -27,12 +26,12 @@ m = int(input()) #관계의 수 =edge
 arr = [[] for _ in range(n+1)]
 
 #방문 기록
-record = [0] * (n+1) 
+record = [0] * (n+1)
 
 #관계저장 = adjacencylist
 for _ in range(m):
     x, y = map(int, input().split())
     arr[x].append(y)
-    arr[y].append(x) 
+    arr[y].append(x)
 
 bfs(a,b)
