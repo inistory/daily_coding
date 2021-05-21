@@ -1,3 +1,4 @@
+#틀림
 def solution(n, costs):
     #비용을 기준으로 오름차순 정렬
     test = [i for i in range(n)] #[0,1,2,3,..., n-1]
