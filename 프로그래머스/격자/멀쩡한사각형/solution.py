@@ -1,5 +1,10 @@
+# def gcd(a,b):
+#     return b if a==0 else gcd((b%a),a)
+
+# def solution(w,h):
+#     return w*h -w -h +gcd(w,h)
+
+import math
+
 def solution(w,h):
-    if w < h:
-        return w * h//2 *2
-    else:
-        return h * w//2 *2
+    return w*h -w -h +math.gcd(w,h)
