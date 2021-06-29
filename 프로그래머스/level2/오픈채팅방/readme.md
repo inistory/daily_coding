@@ -1,10 +1,6 @@
 ## 1. 문제 설명
 
-[문제 링크](
-
-[https://programmers.co.kr/learn/courses/30/lessons/42888](https://programmers.co.kr/learn/courses/30/lessons/42888)
-
-)
+[문제 링크](https://programmers.co.kr/learn/courses/30/lessons/42888)
 
 - 네오가 들은 음악의 정보가 주어질 때, 음악의 제목을 구하기
 - 각 음은 1분에 1개씩 재생
