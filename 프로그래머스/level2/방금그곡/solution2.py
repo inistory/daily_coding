@@ -46,7 +46,6 @@ def solution(m, musicinfos):
     else:
         max_a = ["","","",""]
         for a in answer:
-            print(a)
             if len(max_a[3]) < len(a[3]): #재생시간이 가장 긴 음악 반환
                 max_a = a
         return max_a[2]
