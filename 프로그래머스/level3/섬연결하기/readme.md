@@ -15,9 +15,41 @@
   4. 같은 연결은 두 번 주어지지 않습니다. 또한 순서가 바뀌더라도 같은 연결로 봅니다. 즉 0과 1 사이를 연결하는 비용이 주어졌을 때, 1과 0의 비용이 주어지지 않습니다.
   5. 모든 섬 사이의 다리 건설 비용이 주어지지 않습니다. 이 경우, 두 섬 사이의 건설이 불가능한 것으로 봅니다.
 
-## 2. 어렵거나 헷갈렸던 점
+## 2. 코드
+
+```python
+def find(root, x):
+	if root[x] == x:
+		return x
+	root[x] = find(root, root[x])
+	return root[x]
+
+def union(root,x,y):
+	rx, ry = find(root,x), find(root,y)
+	if rx != ry:
+		root[ry] = rx
+
+def solution(n, costs):
+    answer = 0
+    cnt = 0
+    root = [i for i in range(n)]
+    costs = sorted(costs, key=lambda x:x[2])
+
+    for cost in costs:
+        if find(root, cost[0]) != find(root,cost[1]):
+            union(root, cost[0],cost[1])
+            answer+=cost[2]
+            cnt += 1
+        if cnt == n-1:
+            return answer
+
+    return answer
+
+```
+
+## 3. 어렵거나 헷갈렸던 점
 
 1. 그리디 알고리즘으로 이 문제를 풀어가는 방법
 2. 노드를 돌아가면서 작은 cost를 선택해야겠다고 생각은 했는데, 모든 섬이 통행가능한 한 것을 어떻게 검사를 할 지 어려웠다.
-
    → MST(최소 신장 트리) 중 하나인 크루스칼 알고리즘을 이용해 푸는 문제
+3. union, find 개념을 활용하니 훨씬 간단하다.
