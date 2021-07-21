@@ -25,4 +25,4 @@ def solution(triangle):
 
 ## 3. 어려웠던 점
 
--
+- j의 갯수를 어떻게 처리할지
