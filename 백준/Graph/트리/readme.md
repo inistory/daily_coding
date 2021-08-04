@@ -10,9 +10,6 @@
 ## 2. 코드
 
 ```python
-import sys
-input = sys.stdin.readline
-
 N = int(input())
 arr = list(map(int,input().split()))
 k = int(input())
