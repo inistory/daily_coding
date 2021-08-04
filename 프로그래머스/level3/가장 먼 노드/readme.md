@@ -16,9 +16,7 @@ def bfs(v,adj_list,visited):
     q = deque([[v, count]])
 
     while q: #큐에 아무것도 없을 때까지 반복
-        value = q.popleft()
-        v = value[0]
-        count = value[1]
+        v, count = q.popleft()
 
         if visited[v] == -1:
             visited[v] = count #첫번째 노드는 count = 0
@@ -43,6 +41,7 @@ def solution(n, edge):
         if visit == max(visited):
             answer+=1
     return answer
+
 
 ```
 
