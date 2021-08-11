@@ -1,14 +1,3 @@
-## 1. 문제 설명
-
-[문제 링크](https://www.acmicpc.net/problem/10026)
-
-- 첫째 줄: N (가로, 세로 크기)
-- 다음 N개 줄: 그림 정보
-- return : 적록색약이 아닌 사람이 봤을 때의 구역의 개수와 적록색약인 사람이 봤을 때의 구역의 수
-
-## 2. 코드
-
-```python
 from collections import deque
 
 #상하좌우로 움직이는 좌표
@@ -57,9 +46,3 @@ for i in range(n):
             bfs(i, j)
             cnt += 1
 print(cnt)
-
-```
-
-## 3. 어려웠던 점
-
-- 그림이라는 문제랑 비슷!
