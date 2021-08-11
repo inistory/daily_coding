@@ -30,7 +30,7 @@ for i in range(n):
         if visited[i][j] == 0: #2)방문 전이면
             bfs(i, j) #3)해당 좌표를 전달
             cnt += 1 #11)bfs에서 한 구역을 돌았으니, cnt+1
-print(cnt)
+print(cnt, end=' ')
 
 #적색과 녹색이 동일하도록 변경
 for i in range(n):
