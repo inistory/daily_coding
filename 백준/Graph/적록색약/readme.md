@@ -115,3 +115,4 @@ print(cnt)
 ## 3. 어려웠던 점
 
 - 그림이라는 문제랑 비슷!
+- dfs로 풀 경우, recursion limit이 설정이 필요

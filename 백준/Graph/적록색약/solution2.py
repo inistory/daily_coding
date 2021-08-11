@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(1000000)
+input = sys.stdin.readline
 #상하좌우로 움직이는 좌표
 dx = [1, -1, 0, 0]
 dy = [0, 0, 1, -1]
