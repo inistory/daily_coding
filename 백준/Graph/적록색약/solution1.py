@@ -1,3 +1,4 @@
+#BFS
 from collections import deque
 
 #상하좌우로 움직이는 좌표
