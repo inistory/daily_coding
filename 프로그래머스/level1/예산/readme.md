@@ -1,4 +1,4 @@
-## 1. 문제 설명
+ ## 1. 문제 설명
 
 [문제 링크](https://programmers.co.kr/learn/courses/30/lessons/12982)
 
