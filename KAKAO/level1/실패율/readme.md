@@ -3,10 +3,11 @@
 [문제 링크](https://programmers.co.kr/learn/courses/30/lessons/42889)
 
 - 입력 : 5, [2, 1, 2, 6, 2, 4, 3, 3]
-- 출력 : [3,4,2,1,5] 실패율
+- 출력 : [3,4,2,1,5] 실패율이 높은 스테이지순으로 출력
 
 ## 2. 코드
 
+å
 solution1.py
 
 ```python
