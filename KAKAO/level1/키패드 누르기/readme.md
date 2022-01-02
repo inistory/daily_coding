@@ -111,17 +111,12 @@ def solution(numbers, hand):
             if check_near_hand(current_position[0],current_position[1],num,hand) == 'L':
                 current_position[0] = num
                 answer +='L'
-            elif check_near_hand(current_position[0],current_position[1],num,hand) == 'R':
+            else:
                 current_position[1] = num
                 answer +='R'
-            else:
-                if hand == 'left':
-                    current_position[0] = num
-                    answer +='L'
-                else:
-                    current_position[1] = num
-                    answer +='R'
+
     return answer
+
 ```
 
 ## 3. 회고
