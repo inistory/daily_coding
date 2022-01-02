@@ -7,7 +7,6 @@
 
 ## 2. 코드
 
-å
 solution1.py
 
 ```python
