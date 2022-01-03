@@ -63,4 +63,7 @@ def solution(s):
 - 단위별로 길이 확정된 후에는 더 작은 길이를 찾아내는 것이 목표이므로, 원래 s의 길이와 비교를 한 후, 작은 것을 선택한다.
 - 반복문이 여러개이다보니, pos, length, count, if count>0:, answer = min(answer, length) 등을 어디 놓아야 할지 헷갈렸던 점이 가장 어려웠다.
 - 주석처리를 통해 헷갈리지 않도록 표시하고 반복해서 문제를 푸는게 좋을 것 같다.
+
+## 4. 참고 코드
+
 - https://www.youtube.com/watch?v=SQP6JT4AoAE
