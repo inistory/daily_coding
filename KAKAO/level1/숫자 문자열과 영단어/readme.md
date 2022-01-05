@@ -43,6 +43,28 @@ def solution(s):
     return int(answer)
 ```
 
+solution3.py
+
+```python
+def solution(S):
+    num_dic = {'zero':'0','one':'1', 'two':'2','three':'3','four':'4','five':'5','six':'6','seven':'7','eight':'8','nine':'9'}
+    value_list = num_dic.values()
+    result = ''
+    temp = ''
+    for i,s in enumerate(S):
+        #만약 숫자가 나오면 숫자를 append
+        if s in value_list:
+            result+=s
+        #문자가 나오면
+        else:
+            temp +=s #key에 문자가 존재하면 임시 문자열에 계속 붙이다가
+            if temp in num_dic: #num_dic의 key에 만들어진 임시문자열과 같은게 있으면
+                result+=num_dic[temp]#value를 result에 붙임
+                temp = '' #temp를 초기화
+
+    return int(result)
+```
+
 ## 3. 회고
 
 - 다른 코드를 보니 불필요한 변수를 많이 쓴 것 같다.
@@ -54,3 +76,4 @@ def solution(s):
   dict_items([('zero', '0'), ('one', '1'), ('two', '2'), ('three', '3'), ('four', '4'), ('five', '5'), ('six', '6'), ('seven', '7'), ('eight', '8'), ('nine', '9')])
   ```
 - 딕셔너리.keys(), .values(), .items() 들은 모두 리스트를 돌려준다는 것을 기억하자
+- solution3.py: 문제를 다시 한 번 풀다가 solution1.py의 코드를 수정했다. reulst = [] 처럼 굳이 리스트를 쓰지않고, reulst = '' 이렇게 처음부터 문자열을 사용하면 더 편하다.
