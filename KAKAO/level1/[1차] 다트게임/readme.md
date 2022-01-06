@@ -41,3 +41,7 @@ def solution(dartResult):
 - split()을 통해 공백 기준으론 나눠서 한 점수씩 조회할 수 있도록 한다.
 - 한 점수씩 \*을 만났을 때, 규칙을 적용하고, 나머지 기호들도 규칙적용을 한다.
 - eval을 사용하면 문자로된 기호들을 계산해준다. ex) eval('2\*\*2') = 4
+
+## 4. 참고
+
+https://www.youtube.com/watch?v=6e0BwkjF75Y
