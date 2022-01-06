@@ -23,7 +23,7 @@ def solution(dartResult):
             if answer: #이전 점수가 있는지 확인
                 answer = answer[:-1] + '*2+' #이전 점수의 마지막 부호인 +를 빼고 *2+로 대체
             i+='2'#현재 점수 뒤에는 항상 2를 붙이기 -> *2가됨
-        #*를 제외한 다른 문제 replace
+        #*를 제외한 다른 문자 replace
         for j in db.keys():
             i = i.replace(j,db[j])
         answer+= i + '+'
