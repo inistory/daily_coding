@@ -1,6 +1,6 @@
 ## 1. 문제 설명
 
-[문제 링크](https://programmers.co.kr/learn/courses/30/lessons/17682)
+[문제 링크](https://www.acmicpc.net/problem/18352)
 
 - 입력
   - 첫째 줄에 도시의 개수 N, 도로의 개수 M, 거리 정보 K, 출발 도시의 번호 X
