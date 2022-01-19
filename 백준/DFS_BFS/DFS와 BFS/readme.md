@@ -60,4 +60,4 @@ bfs(graph, V, visited)
 
 - dfs, bfs 기초 문제로 풀기 좋았다.
 - visited = [False]\*(N+1)를 통해 visited 초기화한 후 bfs를 수행해야한다.
-- print()를 통해 칸을 띄워줘야한다.
+- print()를 통해 dfs 후에 줄바꿈을 해줘야한다. 이걸 안해서 출력 형식이 잘못되었다고 떴었다 ㅠㅠ
