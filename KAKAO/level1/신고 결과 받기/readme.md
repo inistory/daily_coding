@@ -36,7 +36,3 @@ def solution(id_list, report, k):
 - 한 유저를 여러 번 신고할 경우, 동일한 유저에 대한 신고 횟수는 1회로 처리해야한다.
 - 신고된 횟수부분에서 report 목록자체를 set()해주면되는데, if문으로 이미 한 번 신고한 적이 있는 유저인지를 검사했었다가 수정했어서 수정했다.
 - 딕셔너리를 사용할 때, value값을 리스트로 하고 여러개의 값을 추가하고 싶을 때는 초기화 시에 지정해주면 편하다.
-
-## 4. 참고
-
-https://github.com/ndb796/python-for-coding-test/blob/master/13/6.py
