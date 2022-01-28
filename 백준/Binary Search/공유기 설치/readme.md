@@ -11,7 +11,7 @@
 
 ```python
 import sys
-
+input = sys.stdin.readline
 #지정한 거리를 기준으로, 공유기를 몇개 설치할 수 있는지
 def router_counter(distance, house):
     count = 1
@@ -23,7 +23,7 @@ def router_counter(distance, house):
     return count
 
 N, C = map(int, (input().split()))#집, 공유기 갯수
-house = [int(sys.stdin.readline()) for _ in range(N)] #집 좌표
+house = [int(input()) for _ in range(N)] #집 좌표
 house = sorted(house) #이분탐색을 위한 정렬
 
 start=1 #가능한 최소 거리
