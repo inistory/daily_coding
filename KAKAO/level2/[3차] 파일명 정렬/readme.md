@@ -59,15 +59,9 @@ def solution(files):
     return filenames
 ```
 
-## 3. 회고
-
-- 문자열 자르기에서 많이 해맸다. for문보다 while문을 사용하면 쉽게 풀리는 문제였다.
-
-- cmp_to_key란?
-
-  - from functools import cmp_to_key로 선언
-  - functools.cmp_to_key(func) 함수는 sorted와 같은 정렬 함수의 key 매개변수에 함수(func)를 전달할 때 사용하는 함수이다.
-  - 단, func 함수는 두 개의 인수를 받아들이고, 첫번째 인수를 기준으로 그들을 비교하여, 작으면 음수, 같으면 0, 크면 양수를 반환하는 비교 함수이어야 한다.
+- from functools import cmp_to_key로 선언
+- functools.cmp_to_key(func) 함수는 sorted와 같은 정렬 함수의 key 매개변수에 함수(func)를 전달할 때 사용하는 함수이다.
+- 단, func 함수는 두 개의 인수를 받아들이고, 첫번째 인수를 기준으로 그들을 비교하여, 작으면 음수, 같으면 0, 크면 양수를 반환하는 비교 함수이어야 한다.
 
 - 정렬을 할 때, cmp_to_key를 활용해야한다.
 
@@ -78,9 +72,57 @@ def solution(files):
 - 주의 1) tail이 없는 경우
   - tail이 없는 경우는 예외처리를 해주어야한다. 안하면 런타임 에러가 날 수 있음
 - 주의 2) 파일명 원상복귀
+
   - ''.join(filename) 로 나누어놓은 파일명리스트를 string형태로 바꿔주자
+
+solution2.py
+
+```python
+def solution(files):
+    tmp = []
+    head, number, tail = '', '', ''
+
+    for file in files:
+        for i in range(len(file)):
+            if file[i].isdigit():     # 숫자가 나오면 그 이전은 무조건 HEAD, 이후는 NUMBER, TAIL로 다시 구분
+                head = file[:i]
+                number = file[i:]
+
+                for j in range(len(number)):    # NUMBER와 TAIL 구분 (숫자 안나오면 TAIL)
+                    if not number[j].isdigit():
+                        tail = number[j:]
+                        number = number[:j]
+                        break
+
+                tmp.append([head, number, tail])
+                head, number, tail = '', '', ''
+                break
+
+    tmp = sorted(tmp, key=lambda x:(x[0].lower(), int(x[1])))
+
+    return [''.join(i) for i in tmp]
+```
+
+- for문과 break문 사용을 통해 쉽게 푼 풀이이다.
+- 훨씬 간결하다.
+
+solution3.py
+
+```python
+import re
+import re
+def solution(files):
+    temp = [re.split(r"([0-9]+)", file) for file in files]
+    sort = sorted(temp, key = lambda x: (x[0].lower(), int(x[1])))
+
+    return [''.join(s) for s in sort]
+```
+
+- 정규표현식을 사용하여 file의 숫자를 기준으로 split
+- r'(\d+)' 도 사용가능
 
 ## 4. 참고
 
 https://www.youtube.com/watch?v=IcNPpsG8i2s
 https://wikidocs.net/109303
+https://velog.io/@sem/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-LEVEL2-%ED%8C%8C%EC%9D%BC%EB%AA%85-%EC%A0%95%EB%A0%AC-Python
