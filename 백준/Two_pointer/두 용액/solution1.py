@@ -12,6 +12,7 @@ min_hab = 2000000001
 answer = []
 
 while left < right:
+    print(left, right)
     L = ary[left]
     R = ary[right]
 
@@ -27,5 +28,5 @@ while left < right:
     # 반대로, 두 용액의 합이 0보다 크다면 오른쪽의 값을 줄여서 0에 가깝게
     else:
         right -= 1
-
+print(left, right)
 print(answer[0], answer[1])

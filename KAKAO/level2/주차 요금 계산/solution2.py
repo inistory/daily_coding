@@ -1,7 +1,7 @@
 import math
 
-def time_to_minutes(date):
-    h, m = map(int, date.split(':'))
+def time_to_minutes(time):
+    h, m = map(int, time.split(':'))
     return h*60 + m
     
 def solution(fees, records):

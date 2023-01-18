@@ -2,7 +2,8 @@
 
 [문제 링크](https://programmers.co.kr/learn/courses/30/lessons/17677)
 
--
+- 입력 : 문자열 두 개
+- 출력 : 자카드 유사도 : 문자열을 두개씩 끊어서 집합을 각각 만들고, 두 집합의 교집합길이/합집합길이
 
 ## 2. 코드
 
@@ -37,6 +38,10 @@ def solution(str1, str2):
 
 ```
 
-## 3. 어려웠던 점
+## 3. 회고
 
 -
+
+## 4. 참고
+
+https://www.youtube.com/watch?v=nbrKZzwsQmg&list=PLSK4WsJ8JS4c1aMT5sZp2Nf50g2WhQuro
