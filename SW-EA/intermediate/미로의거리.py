@@ -1,21 +1,20 @@
 from collections import deque
 
 def bfs(i,j,idx):
-    
     q = deque()
     q.append((i,j,idx))#큐에 넣기
     visited[i][j] = 1 #방문처리
 
-    
     #조건을 만족하면 큐에 넣기
     while q: #큐가 비어있지 않을때
         x,y,cnt = q.popleft()  #꺼내기
         if m[x][y] == '3':
-            return cnt-1#종료조건을 만족하면 return
+            return cnt-1#종료조건을 만족하면 return,3일때도 +1해서 -1해줌
         #해당 좌표의 상하좌우 살피기
         for k in range(4):
             nx = x+dx[k]
             ny = y+dy[k]
+            
             if 0<=nx<msize and 0<=ny<msize and m[nx][ny]!='1' and not visited[nx][ny]:
                 q.append((nx,ny,cnt+1)) 
                 visited[nx][ny] = 1
