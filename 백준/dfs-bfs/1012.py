@@ -3,7 +3,6 @@ from collections import deque
 test_case = int(input())
 
 def bfs(x,y):
-    count = 0
     queue = deque()
     queue.append((x,y))
     dx = [-1,1,0,0]
