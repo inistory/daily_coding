@@ -1,7 +1,9 @@
 #퇴사2
+import sys
+input = sys.stdin.readline
 
 N = int(input())
-dp = [0]*(N+1)
+dp = [0]*(N+2) #각 날짜까지 얻을 수 있는 최대수익
 
 for i in range(1, N+1):
     t, p = map(int, input().split())
