@@ -1,4 +1,5 @@
 #문자열 폭발
+#시간초과 나는코드: replace를 쓰면 O(n^2)이 됨 replace를 쓰지 않고 풀어야함
 # string = str(input())
 # p = str(input())
     
