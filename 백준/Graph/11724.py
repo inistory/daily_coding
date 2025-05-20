@@ -1,9 +1,12 @@
 #연결 요소의 개수
 from collections import deque
+import sys
+
+input = sys.stdin.readline
 
 N, M = map(int, input().split())
 
-graph = [[0] for _ in range(N+1)]
+graph = [[] for _ in range(N+1)]
 visited = [0]*(N+1)
 
 for _ in range(M):
@@ -16,6 +19,7 @@ for i in range(1, N+1):
     if not visited[i]:
         queue = deque()
         queue.append(i)
+        visited[i] = 1
         
         while queue:
             c = queue.popleft()
