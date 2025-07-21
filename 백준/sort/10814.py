@@ -1,9 +1,10 @@
 N = int(input())
 arr = []
 for _ in range(N):
-    arr.append(str(input()))
+    age, name = input().split()
+    arr.append((int(age), name))
     
-arr.sort(key=lambda a: (len(a),a))
+arr.sort(key=lambda a:(a[0]))
 
-for a in arr:
-    print(a)
+for age, name in arr:
+    print(age, name)
