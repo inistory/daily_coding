@@ -5,7 +5,6 @@ trees = [int(input()) for _ in range(n)]
 
 # 각 나무 사이 거리 계산
 distances = [trees[i+1] - trees[i] for i in range(n - 1)]
-print(distances)
 # 모든 거리의 최대공약수(GCD) 구하기
 g = distances[0]
 for d in distances[1:]:
