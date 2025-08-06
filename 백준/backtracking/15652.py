@@ -1,6 +1,17 @@
-n, m = map(int,input().split())
+import sys
+input = sys.stdin.readline
 
-#1~n까지의 수에서 m개를 뽑아 만들 수 있는 수열, 내림차순이어야함
+N, M = map(int, input().split())
+seq = []
 
-for i in range(1,n+1):
-    print(i)
+#정렬된 수열만 만들기
+def dfs(start):
+    if len(seq) == M:#현재 만든 수열의 길이가 M이 되면 출력하고 종료
+        print(" ".join(map(str, seq)))
+        return
+    for i in range(start, N+1):
+        seq.append(i)
+        dfs(i)  # start를 그대로 넘김: 중복 허용 + 비내림차순
+        seq.pop()
+
+dfs(1)
