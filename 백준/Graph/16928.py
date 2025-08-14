@@ -11,7 +11,7 @@ for _ in range(N + M):
 
 # dist[i] = i번 칸에 도달하기까지 필요한 최소 주사위 굴림 수
 dist = [-1] * 101 #1번 칸에서 i번 칸까지 가는 데 필요한 최소 주사위 횟수: -1로 초기화
-q = deque([1])#1칸에서 시작
+q = deque([1])#1칸에서 시작(큐선언 및 1 append를 한 번에:q = deque() + q.append(1))
 dist[1] = 0
 
 while q:
