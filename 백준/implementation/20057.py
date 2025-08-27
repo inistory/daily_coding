@@ -49,7 +49,6 @@ def inside(r, c):
     return 0 <= r < N and 0 <= c < N
 
 # 시뮬레이션
-# This part of the code initializes the variables for the simulation of a sandstorm (토네이도). Here is what each variable represents:
 r = c = N // 2 #토네이도 시작 위치 (정중앙)
 out_sand = 0 #격자 밖으로 나간 모래 누적값
 step = 1 #토네이도가 한 방향으로 이동할 칸 수(두번반복후 하나 증가)
@@ -82,7 +81,6 @@ while True:
                     out_sand += remain #out_sand에 더함
 
                 A[r][c] = 0 #원래 칸은 모래 0으로 비움(모래는 전부 퍼졌으므로 비워야 함)
-# The code snippet `if r == 0 and c == 0: #좌쵸(0,0) print(out_sand) sys.exit(0)` is checking if the current position of the sandstorm (r, c) is at the coordinates (0, 0) which represents the top-left corner of the grid.
 
             if r == 0 and c == 0:#문제에서의 (1,1) = 좌표에서는 (0,0)에 도달하면 종료
                 print(out_sand) #격자 밖으로 나간 모래량 출력
