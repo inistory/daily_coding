@@ -1,359 +1,173 @@
+def myprint(arr):
+    for lst in arr:
+        print(*lst)
+    print()
+
+# route = find_route(si,sj,ei,ej)
 from collections import deque
-import heapq
+def find_route(si,sj,ei,ej):
+    q = deque()
+    v = [[0]*N for _ in range(N)]
 
-# 상, 하, 좌, 우
-DR = [-1, 1, 0, 0]
-DC = [0, 0, -1, 1]
+    q.append((si,sj))
+    v[si][sj]=((si,sj))          # 직전위치를 저장
 
-# -----------------------------
-# 입력
-# -----------------------------
-N, M = map(int, input().split())
-sr, sc, er, ec = map(int, input().split())
+    while q:
+        ci,cj = q.popleft()
 
-line = input().strip()  # m=0이어도 한 줄 읽기
-arr = list(map(int, line.split())) if line else []
+        if (ci,cj)==(ei,ej):        # 목적지 도착! 경로 저장
+            route = []
+            ci,cj = v[ci][cj]
+            while (ci,cj)!=(si,sj): # 출발지가 아니라면 저장
+                route.append((ci,cj))
+                ci,cj = v[ci][cj]
+            return route[::-1]      # 역순(메두사 이동순서대로) 리턴
 
-# 0=도로, 1=마을(벽)
-grid = [list(map(int, input().split())) for _ in range(N)]
+        # 네방향(상하좌우!), 범위내, 미방문, 조건(==0)
+        for di,dj in ((-1,0),(1,0),(0,-1),(0,1)):
+            ni,nj = ci+di, cj+dj
+            if 0<=ni<N and 0<=nj<N and v[ni][nj]==0 and arr[ni][nj]==0:
+                q.append((ni,nj))
+                v[ni][nj]=(ci,cj)
 
-# 상태
-medusa_pos = [sr, sc]#메두사 위치
-park_pos = [er, ec]#공원 위치
-
-# 칸별 전사 수
-warrior_map = [[0] * N for _ in range(N)]
-# 이번 턴 석화된 전사(다음 단계에 복구)
-next_warrior_map = [[0] * N for _ in range(N)]
-# 전사 큐 (개별 유닛)
-warriors = deque()
-for i in range(M):
-    r, c = arr[2 * i], arr[2 * i + 1]
-    warrior_map[r][c] += 1
-    warriors.append([r, c])
-
-# 메두사 시야(방향별 보이는 칸을 따로 가록ㅓㅁ)
-medusa_area = [[[False] * N for _ in range(N)] for _ in range(4)]
-
-
-# -----------------------------
-# (nr, nc)에서 공원까지 "도로만" 최단거리
-# -----------------------------
-def road_dist_from(nr, nc):
-    if grid[nr][nc] == 1:
-        return -1
-    if nr == park_pos[0] and nc == park_pos[1]:
-        return 0
-    pq = []
-    heapq.heappush(pq, (0, nr, nc))
-    visited = [[False] * N for _ in range(N)]
-    visited[nr][nc] = True
-    while pq:
-        dist, r, c = heapq.heappop(pq)
-        if r == park_pos[0] and c == park_pos[1]:
-            return dist
-        for k in range(4):
-            rr, cc = r + DR[k], c + DC[k]
-            if 0 <= rr < N and 0 <= cc < N and not visited[rr][cc] and grid[rr][cc] == 0:
-                visited[rr][cc] = True
-                heapq.heappush(pq, (dist + 1, rr, cc))
+    # 이곳까지 왔다는 얘기는?? 목적지 못찾음
     return -1
 
+#     상,우상, 우,우하, 하,좌하, 좌,좌상
+#      0,  1,  2,  3,  4,  5,  6,  7
+di = [-1, -1, 0, 1, 1, 1, 0, -1]
+dj = [0, 1, 1, 1, 0, -1, -1, -1]
 
-def manhattan(a, b):
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+def mark_line(v, ci, cj, dr):
+    while 0 <= ci < N and 0 <= cj < N:
+        v[ci][cj]=2                     # 시각적 구분위해 2로표시
+        ci,cj = ci+di[dr],cj+dj[dr]     # 해당 방향으로 한 칸 이동
 
+def mark_safe(v, si, sj, dr, org_dr):
+    # [1] 직선방향 표시
+    ci,cj = si+di[dr], sj+dj[dr]
+    mark_line(v, ci, cj, dr)        # v에 dr방향으로 이동가능지역 표시
 
-# -----------------------------
-# 1단계: 메두사 이동
-#  - 도로만, 공원까지 최단거리 감소 방향
-#  - tie: 방향 인덱스가 작은 순
-#  - 경로 없으면 "-1\n", 공원 도착하면 "0\n" 추가 후 False 반환
-# -----------------------------
-def move_medusa(out_lines, visited):
-    pq = []
-    for i in range(4):
-        nr, nc = medusa_pos[0] + DR[i], medusa_pos[1] + DC[i]
-        if not (0 <= nr < N and 0 <= nc < N):
-            continue
-        if visited[nr][nc] or grid[nr][nc] == 1:
-            continue
-        dist = road_dist_from(nr, nc)
-        if dist == -1:
-            continue
-        heapq.heappush(pq, (dist, i, nr, nc))
+    # [2] 바라보는 방향으로 한줄씩 표시
+    ci,cj = si+di[org_dr],sj+dj[org_dr]
+    while 0<=ci<N and 0<=cj<N:          # 범위내라면 계속 진행
+        mark_line(v, ci, cj, dr)        # v에 dr방향으로 이동가능지역 표시
+        ci,cj = ci+di[org_dr],cj+dj[org_dr]
 
-    if not pq:
-        out_lines.append("-1\n")
-        return False
+#             tv, tstone = make_stone(marr,mi,mj,dr)
+def make_stone(marr, mi, mj, dr):
+    v = [[0]*N for _ in range(N)]
+    cnt = 0
 
-    _, _, nr, nc = heapq.heappop(pq)
-    medusa_pos[0], medusa_pos[1] = nr, nc
+    # [1] dr 방향으로 >0 만날때까지 1표시, 이후좌표 2표시
+    ni,nj = mi+di[dr],mj+dj[dr]
+    while 0<=ni<N and 0<=nj<N:          # 범위내라면 계속 진행
+        v[ni][nj]=1
+        if marr[ni][nj] > 0:
+            cnt+=marr[ni][nj]
+            ni, nj = ni + di[dr], nj + dj[dr]
+            mark_line(v, ni, nj, dr)    # v에 dr방향으로 이동가능지역 표시
+            break
+        ni,nj = ni+di[dr], nj+dj[dr]
 
-    # 공원 도착 즉시 종료
-    if medusa_pos[0] == park_pos[0] and medusa_pos[1] == park_pos[1]:
-        out_lines.append("0\n")
-        return False
-
-    # 메두사가 밟은 칸의 전사 제거
-    if warrior_map[nr][nc] > 0:
-        size = len(warriors)
-        for _ in range(size):
-            r, c = warriors.popleft()
-            if r == nr and c == nc:
-                continue  # 소멸
-            warriors.append([r, c])
-        warrior_map[nr][nc] = 0
-
-    return True
-
-
-# -----------------------------
-# 2단계: 메두사 시선(90도) + 가림, 석화 수 집계
-#  - 반환: (kill_count, best_dir)
-#  - medusa_area[best_dir]에 표시, 석화는 next_warrior_map에 잠시 보관
-# -----------------------------
-def choose_sight_and_petrify():
-    best_list = []
-
-    for d in range(4):
-        # 초기화
-        for r in range(N):
-            for c in range(N):
-                medusa_area[d][r][c] = False
-
-        # rock: 상/하 → 열 기준, 좌/우 → 행 기준 가림 배열
-        rock = [False] * N
-        kill_count = 0
-
-        # 1) 정면 직선 표시 + 첫 전사까지 카운트
-        for step in range(1, N):
-            r = medusa_pos[0] + step * DR[d]
-            c = medusa_pos[1] + step * DC[d]
-            if r < 0 or r >= N or c < 0 or c >= N:
-                break
-            medusa_area[d][r][c] = True
-            if warrior_map[r][c] > 0:
-                if d <= 1:    # 상/하 → 열
-                    rock[c] = True
-                else:         # 좌/우 → 행
-                    rock[r] = True
-                kill_count += warrior_map[r][c]
+    # [2] dr-1, dr+1 방향으로 동일처리, 대각선 원점잡고 dr방향 처리
+    for org_dr in ((dr-1)%8, (dr+1)%8):
+        si,sj = mi+di[org_dr], mj+dj[org_dr]        # 첫 대각선 위치부터 체크
+        while 0<=si<N and 0<=sj<N:                  # 대각선 방향으로 초기위치 탐색후 직선단위 처리
+            if v[si][sj] == 0 and marr[si][sj] > 0: # 전사 만나면 전사가 바라보는 방향 처리
+                v[si][sj]=1
+                cnt +=marr[si][sj]                  # 돌로만든 전사수 누적
+                mark_safe(v, si, sj, dr, org_dr)    # v에 dr방향으로 이동가능지역 표시
                 break
 
-        # 2) 정면을 따라가며 좌/우(또는 상/하) 부채꼴 확장 + 가림
-        cur_r, cur_c = medusa_pos[0], medusa_pos[1]
-        while 0 <= cur_r < N and 0 <= cur_c < N:
-            left_done = False
-            right_done = False
-            step = 1
-            while step <= N and (not left_done or not right_done):
-                r = cur_r + (DR[d] * step) if d <= 1 else cur_r
-                c = cur_c if d <= 1 else cur_c + (DC[d] * step)
-
-                if d <= 1 and (r < 0 or r >= N):
-                    break
-                if d > 1 and (c < 0 or c >= N):
-                    break
-
-                if d <= 1:
-                    # 좌/우로 확장
-                    if not left_done and 0 <= (c - step):
-                        if rock[c - step]:
-                            left_done = True
-                        else:
-                            medusa_area[d][r][c - step] = True
-                            if warrior_map[r][c - step] > 0:
-                                rock[c - step] = True
-                                left_done = True
-                                kill_count += warrior_map[r][c - step]
-                    if not right_done and (c + step) < N:
-                        if rock[c + step]:
-                            right_done = True
-                        else:
-                            medusa_area[d][r][c + step] = True
-                            if warrior_map[r][c + step] > 0:
-                                rock[c + step] = True
-                                right_done = True
-                                kill_count += warrior_map[r][c + step]
+            ci,cj = si,sj                           # 첫 위치가 전사가 아닌 경우는 직선으로 내려오며 탐색
+            while 0<=ci<N and 0<=cj<N:              # 범위내라면 계속 진행
+                if v[ci][cj]==0:                    # 처음 방문
+                    v[ci][cj] = 1
+                    if marr[ci][cj] > 0:            # 전사로 막혔으면
+                        cnt +=marr[ci][cj]
+                        mark_safe(v,ci,cj,dr,org_dr)    # v에 dr방향으로 이동가능지역 표시
+                        break
                 else:
-                    # 상/하로 확장
-                    if not left_done and 0 <= (r - step):
-                        if rock[r - step]:
-                            left_done = True
-                        else:
-                            medusa_area[d][r - step][c] = True
-                            if warrior_map[r - step][c] > 0:
-                                rock[r - step] = True
-                                left_done = True
-                                kill_count += warrior_map[r - step][c]
-                    if not right_done and (r + step) < N:
-                        if rock[r + step]:
-                            right_done = True
-                        else:
-                            medusa_area[d][r + step][c] = True
-                            if warrior_map[r + step][c] > 0:
-                                rock[r + step] = True
-                                right_done = True
-                                kill_count += warrior_map[r + step][c]
-                step += 1
+                    break
+                ci,cj = ci+di[dr], cj+dj[dr]
 
-            cur_r += DR[d]
-            cur_c += DC[d]
+            si,sj = si+di[org_dr], sj+dj[org_dr]
 
-        best_list.append((kill_count, d))
+    return v, cnt
 
-    # kill 최댓값, 동률이면 방향 인덱스 작은 쪽
-    kill_count, best_dir = max(best_list, key=lambda x: (x[0], -0 * x[1]))
+# move_cnt, attk_cnt = move_men(v, mi, mj)
+def move_men(v,mi,mj):
+    # (상하좌우), (좌우상하) 메두사 시야가 아니면 (!=1)
+    move, attk = 0, 0
 
-    # 석화 칸을 next_warrior_map에 보관하고, warrior_map은 비움
-    for r in range(N):
-        for c in range(N):
-            if medusa_area[best_dir][r][c] and warrior_map[r][c] > 0:
-                next_warrior_map[r][c] = warrior_map[r][c]
-                warrior_map[r][c] = 0
+    for dirs in (((-1,0),(1,0),(0,-1),(0,1)), ((0,-1),(0,1),(-1,0),(1,0))):
+        for idx in range(len(men)-1,-1,-1):
+            ci,cj = men[idx]
+            if v[ci][cj]==1:                # 메두사 시야면 얼음!
+                continue
 
-    return kill_count, best_dir
+            dist = abs(mi-ci)+abs(mj-cj)    # 현재거리
+            for di,dj in dirs:
+                ni,nj = ci+di, cj+dj
+                # 범위내 메두사시야 아니고 현재보다 줄어드는 방향이면 (상하좌우 우선순위로 이동)
+                if 0<=ni<N and 0<=nj<N and v[ni][nj]!=1 and dist>abs(mi-ni)+abs(mj-nj):
+                    if (ni,nj)==(mi,mj):
+                        attk+=1             #
+                        men.pop(idx)
+                    else:
+                        men[idx]=[ni,nj]
+                    move+=1
+                    break
+    return move, attk
 
 
-# -----------------------------
-# 3-1단계: 전사 1차 이동 (상,하,좌,우)
-#   - 시야 진입 금지
-#   - 맨해튼 거리 증가 금지(새 거리 <= 기존 거리)
-# -----------------------------
-def move_warriors_phase1(sight_dir):
-    moved_sum = 0
-    size = len(warriors)
-    for _ in range(size):
-        r, c = warriors.popleft()
+#######################################
+#######################################
 
-        if warrior_map[r][c] == 0:
-            continue
-        if medusa_pos[0] == r and medusa_pos[1] == c:
-            warriors.append([r, c])
-            continue
+N, M = map(int, input().split())
+si,sj,ei,ej = map(int, input().split())
+tlst = list(map(int, input().split()))
 
-        origin_dist = abs(r - medusa_pos[0]) + abs(c - medusa_pos[1])
-        warrior_map[r][c] -= 1
+men = []
+for i in range(0,M*2,2):
+    men.append([tlst[i],tlst[i+1]])
+arr = [list(map(int, input().split())) for _ in range(N)]
 
-        cand_pq = []
-        for j in range(4):
-            nr, nc = r + DR[j], c + DC[j]
-            if 0 <= nr < N and 0 <= nc < N and not medusa_area[sight_dir][nr][nc]:
-                d = abs(nr - medusa_pos[0]) + abs(nc - medusa_pos[1])
-                if origin_dist < d:
-                    continue  # 증가 금지
-                heapq.heappush(cand_pq, (d, j, nr, nc))
+# [0] BFS로 메두사 최단경로: 도로따라 공원까지(여러 개면 상하좌우 순) 없으면 -1
+route = find_route(si,sj,ei,ej)
 
-        if not cand_pq:
-            warrior_map[r][c] += 1
-            warriors.append([r, c])
-            continue
+if route==-1:
+    print(-1)
+else:
+    for mi,mj in route:
+        move_cnt, attk_cnt = 0, 0
 
-        _, _, nr, nc = heapq.heappop(cand_pq)
-        moved_sum += 1
-        warriors.append([nr, nc])
-        warrior_map[nr][nc] += 1
+        # [1] 메두사의 이동: 지정된 최단거리로 한 칸 이동 (전사 마주치면 삭제)
+        for i in range(len(men)-1, -1, -1):     # 삭제시 역순으로 접근
+            if men[i]==[mi,mj]:                 # 같은좌료
+                men.pop(i)
 
-    return moved_sum
+        # [2] 메두사의 시선: 상하좌우 네 방향 가장 많이 돌로 만들 수 있는 방향찾기
+        # => v[]에 표시해서 이동시 참조(메두사시선 == 1, 전사에 가려진 곳 == 2, 빈 땅==0)
+        # marr[][]: 지도에 있는 전사수 표시
+        marr = [[0]*N for _ in range(N)]
+        for ti,tj in men:
+            marr[ti][tj]+=1
 
+        mx_stone = -1
+        v = []
+        for dr in (0, 4, 6, 2):     # 상하좌우 순서로 처리!
+            tv, tstone = make_stone(marr,mi,mj,dr)
+            if mx_stone<tstone:
+                mx_stone=tstone
+                v = tv
+        # print(mx_stone)
+        # myprint(v)
+        # myprint(marr)
 
-# -----------------------------
-# 3-2단계: 전사 2차 이동 (좌,우,상,하 = 2,3,0,1)
-# -----------------------------
-def move_warriors_phase2(sight_dir):
-    moved_sum = 0
-    size = len(warriors)
-    for _ in range(size):
-        r, c = warriors.popleft()
+        # [3] 전사들의 이동(한 칸씩 두번): 메두사 있는 경우 공격
+        move_cnt, attk_cnt = move_men(v, mi, mj)
 
-        if medusa_pos[0] == r and medusa_pos[1] == c:
-            warriors.append([r, c])
-            continue
-
-        origin_dist = abs(r - medusa_pos[0]) + abs(c - medusa_pos[1])
-        warrior_map[r][c] -= 1
-
-        cand_pq = []
-        for j in range(2, 6):  # 2,3,0,1 순서
-            jj = j % 4
-            nr, nc = r + DR[jj], c + DC[jj]
-            if 0 <= nr < N and 0 <= nc < N and not medusa_area[sight_dir][nr][nc]:
-                d = abs(nr - medusa_pos[0]) + abs(nc - medusa_pos[1])
-                if origin_dist < d:
-                    continue
-                heapq.heappush(cand_pq, (d, j, nr, nc))
-
-        if not cand_pq:
-            warrior_map[r][c] += 1
-            warriors.append([r, c])
-            continue
-
-        _, _, nr, nc = heapq.heappop(cand_pq)
-        moved_sum += 1
-        warriors.append([nr, nc])
-        warrior_map[nr][nc] += 1
-
-    return moved_sum
-
-
-# -----------------------------
-# 4단계: 전사 공격 + 석화 복구
-#   - 메두사와 같은 칸 전사 → 공격 성공, 소멸
-#   - next_warrior_map에 있던 석화 전사 복구
-# -----------------------------
-def warriors_attack_and_restore():
-    result = 0
-    size = len(warriors)
-    for _ in range(size):
-        r, c = warriors.popleft()
-        if r == medusa_pos[0] and c == medusa_pos[1]:
-            result += 1
-            warrior_map[r][c] -= 1  # 소멸
-        else:
-            warriors.append([r, c])
-
-    for i in range(N):
-        for j in range(N):
-            cnt = next_warrior_map[i][j]
-            if cnt > 0:
-                for _ in range(cnt):
-                    warriors.append([i, j])
-                warrior_map[i][j] += cnt
-                next_warrior_map[i][j] = 0
-
-    return result
-
-
-# -----------------------------
-# 메인 루프
-# -----------------------------
-def solve():
-    out_lines = []
-    visited = [[False] * N for _ in range(N)]
-
-    while medusa_pos[0] != park_pos[0] or medusa_pos[1] != park_pos[1]:
-        visited[medusa_pos[0]][medusa_pos[1]] = True
-
-        # 1) 메두사 이동 (종료 조건 포함)
-        if not move_medusa(out_lines, visited):
-            print("".join(out_lines), end="")
-            return
-
-        # 2) 메두사 시선(석화)
-        kill_count, sight_dir = choose_sight_and_petrify()
-
-        # 3) 전사 이동 (1차 + 2차)
-        moved = move_warriors_phase1(sight_dir)
-        moved += move_warriors_phase2(sight_dir)
-
-        # 4) 전사 공격
-        attack_count = warriors_attack_and_restore()
-
-        out_lines.append(f"{moved} {kill_count} {attack_count}\n")
-
-    # 공원 도착은 move_medusa에서 처리되므로 여기선 턴 출력만 남음
-    print("".join(out_lines), end="")
-
-
-solve()
+        print(move_cnt, mx_stone, attk_cnt)
+    print(0)

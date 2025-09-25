@@ -55,31 +55,35 @@ left_nxt = {0:2, 2:1, 1:3, 3:0}
 right_nxt = {0:3, 2:0, 1:2, 3:1}
 # dist = bfs_3d(sk_3d, si_3d, sj_3d,ek_3d, ei_3d, ej_3d)
 from collections import deque
-def bfs_3d(sk, si, sj,ek, ei, ej):
+def bfs_3d(sk, si, sj,ek, ei, ej):#3차원 공간에서 (출발 면 번호, 행, 열), (목표 면 번호, 행, 열)
     q = deque()
-    v = [[[0]*M for _ in range(M)] for _ in range(5)]
+    v = [[[0]*M for _ in range(M)] for _ in range(5)]#방문여부+거리기록
 
     q.append((sk,si,sj))
     v[sk][si][sj]=1
 
     while q:
-        ck,ci,cj = q.popleft()
+        ck,ci,cj = q.popleft() #현재 위치(면번호,행,열)
 
-        if (ck,ci,cj)==(ek,ei,ej):
-            # myprint_3d(v)
-            return v[ck][ci][cj]
+        if (ck,ci,cj)==(ek,ei,ej):#현재좌표가 목표좌표라면
+            return v[ck][ci][cj] #지금까지 걸린 거리 반환
 
         # 네방향, 범위내/범위밖->다른평명 이동처리, 미방문
-        for di,dj in ((-1,0),(1,0),(0,-1),(0,1)):
+        for di,dj in ((-1,0),(1,0),(0,-1),(0,1)):#상하좌우 네 방향으로 이동 시도
             ni,nj = ci+di, cj+dj
 
             # 범위밖
             if ni<0:    # 위쪽 범위 이탈
-                if ck==0:   nk,ni,nj = 4,(M-1)-cj,M-1
-                elif ck==1: nk,ni,nj = 4,cj,0
-                elif ck==2: nk,ni,nj = 4,M-1,cj
-                elif ck==3: nk,ni,nj = 4,0,(M-1)-cj
-                elif ck==4: nk,ni,nj = 3,0,(M-1)-cj
+                #면0에서 위로 나가면
+                if ck==0:   nk,ni,nj = 4,(M-1)-cj,M-1 #면4로 이동, 열좌표를 행좌표로 변환, 오른쪽 끝 열로 붙여줌
+                #면1에서 위로 나가면
+                elif ck==1: nk,ni,nj = 4,cj,0#면4로이동, 단순히 열좌표->행좌표로옮김, 왼쪽끝열
+                #면2에서 위로 나가면
+                elif ck==2: nk,ni,nj = 4,M-1,cj #면4로 이동, 행좌표 맨 아랫줄, 열좌표 그대로
+                #면3에서 위로 나가면
+                elif ck==3: nk,ni,nj = 4,0,(M-1)-cj #면4로 이동, 행좌표0, 열좌표는 대칭 변환
+                #면4에서 위로 나가면
+                elif ck==4: nk,ni,nj = 3,0,(M-1)-cj #다른 옆면 3으로 이동, 행좌표0, 열좌표 대칭변환
             elif ni>=M: # 아래쪽 범위이탈
                 if ck==4:   nk,ni,nj = 2,0,cj
                 else:       continue
@@ -95,9 +99,9 @@ def bfs_3d(sk, si, sj,ek, ei, ej):
                 nk=ck
 
             # 미방문, 조건 맞으면
-            if v[nk][ni][nj]==0 and arr3[nk][ni][nj]==0:
+            if v[nk][ni][nj]==0 and arr3[nk][ni][nj]==0:#아직 방문 안 했고, 해당 칸이 벽이 아니면
                 q.append((nk,ni,nj))
-                v[nk][ni][nj]=v[ck][ci][cj]+1
+                v[nk][ni][nj]=v[ck][ci][cj]+1#거리+1기록
 
     # 이곳에 왔다는건? 경로 없음!
     # myprint_3d(v)
