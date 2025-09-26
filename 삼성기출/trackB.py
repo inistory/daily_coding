@@ -7,8 +7,8 @@ from collections import deque
 DIR4 = [(-1,0),(0,1),(1,0),(0,-1)]#상,우,하,좌
 
 #inthebound
-def inb(i, j, n, m):
-    return 0 <= i < n and 0 <= j < m
+def oob(i, j, n, m):
+    return not (0 <= i < n and 0 <= j < m)
 
 def find_starts(grid, ch,n,m):
     starts = []
@@ -29,7 +29,7 @@ def layer_bfs(starts, is_block, n, m):
             i, j = q.popleft()
             for di, dj in DIR4:
                 ni, nj = i + di, j + dj
-                if not inb(ni, nj, n, m):
+                if oob(ni, nj, n, m):
                     continue
                 if is_block(ni, nj) or dist[ni][nj] != -1:
                     continue
