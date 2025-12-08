@@ -4,3 +4,4 @@ __pycache__/
 ex*
 */examples/
 re.py
+commit.sh
