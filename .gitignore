@@ -1,5 +1,6 @@
 .idea/
 .ai/
+__pycache__/
 ex*
 */examples/
 re.py
