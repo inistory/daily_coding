@@ -1,5 +1,5 @@
 ## Plan for daily coding
--  SQL 5문제 (프로그래머스)
+-  SQL 3문제 (프로그래머스)
     - 주어진 템플릿을 지키며 풀기 (temp.sql 참고)
     - 시작 부분에 문제, 접근법 주석 달기, 탭은 세번, SELECT, FROM 대문자로
 -  Python 3문제
