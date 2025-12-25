@@ -1,4 +1,5 @@
 /*
+- 2025-12-24(1)
 - 문제: ROOT 아이템(parent가 없는 아이템) 구하기
 - 접근법: ROOT_ITEM_ID를 만들어서 left join으로 root item만 filtering
 */
