@@ -5,6 +5,7 @@
     - city와 country를 city.countrycode = country.code로 JOIN
     - WHERE절로 continent가 Africa인 것을 필터링
 */
+
 SELECT          city.name
 FROM            city
 INNER JOIN      country
