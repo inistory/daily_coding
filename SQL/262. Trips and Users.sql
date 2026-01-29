@@ -6,18 +6,19 @@
      - client도 banned된 사람이 아니고, driver도 banned된 사람이 아닌 trip만 결과가 남게하기
     2) 이 결과를 일별로 결과 요약: GROUP BY request_at
     3) 'cancelled_by_driver', 'cancelled_by_client' 둘다 cancel에 포함되는 것이므로 해당 status일 때의 경우의 id를 COUNT
+    4) ROUND로 소숫점 둘째짜리까지 출력
 
 */
-WITH ㄴtrips_daily AS (
+WITH trips_daily AS (
             SELECT          request_at
                             , COUNT(CASE WHEN status IN ('cancelled_by_driver', 'cancelled_by_client') THEN id END) AS cancelled_trip
                             , COUNT(id) AS total_trip
             FROM            trips AS t
             INNER JOIN      users AS c -- client
-            ON              t.client_id = c.user_id
+            ON              t.client_id = c.users_id
             AND             c.banned = 'No'
             INNER JOIN      users AS d -- driver
-            ON              t.client_id = d.user_id
+            ON              t.driver_id = d.users_id
             AND             d.banned = 'No'
             WHERE           request_at BETWEEN '2013-10-01' AND '2013-10-03'
             GROUP BY        request_at
