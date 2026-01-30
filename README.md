@@ -5,6 +5,7 @@
 -  Python
     - 강의 하루 네 개([하루코딩](https://www.inflearn.com/courses/lecture?courseId=330467&tab=curriculum&type=LECTURE&unitId=148370)) (12월내로 끝내기)
     - 강의 다 들으면 하루 세 문제씩 풀기
-      - 1) 알고리즘 (백준, 프로그래머스)
+      - 1) 알고리즘 (백준, 프로그래머스): dfs/bfs
       - 2) 데이터프레임 핸들링 ([Kaggle Learn Pandas](https://www.kaggle.com/learn/pandas))
       - 3) ML 프로젝트 (Kaggle)
+    
