@@ -6,8 +6,6 @@
 """
 
 from collections import deque
-import sys
-input = sys.stdin.readline
 
 N, M, V = map(int, input().split())
 
@@ -17,7 +15,6 @@ for _ in range(M):
     graph[a].append(b)
     graph[b].append(a)
 
-# 작은 번호부터 방문해야 하므로 정렬
 for i in range(1, N + 1):
     graph[i].sort()
 
@@ -41,11 +38,8 @@ def bfs(start):
                 visited[nxt] = True
                 q.append(nxt)
 
-# DFS
 dfs(V)
 print()
 
-# BFS (visited 초기화 필수)
 visited = [False] * (N + 1)
 bfs(V)
-
